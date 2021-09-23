@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.min.css"/>
+
+</head>
+<body>
+    <script> var require = {path: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs' }};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.min.js" ></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.nls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.min.js"></script>
+<h1>My blog</h1>
+<p>Some intro...... and look on my code.</p>
+    <pre id = "codeBlock" data-lang='cpp'>
+        private void ReArrange(IComparable item) {  
+            currentNode.color = Red;  
+            currentNode.left.color = Color.Black;  
+            currentNode.right.color = Color.Black;  
+            if (parentNode.color == Color.Red) {  
+                grandParentNode.color = Color.Red;  
+                bool compareWithGrandParentNode = (Compare(item, grandParentNode) < 0);  
+                bool compareWithParentNode = (Compare(item, parentNode) < 0);  
+                if (compareWithGrandParentNode != compareWithParentNode) parentNode = Rotate(item, grandParentNode);  
+                currentNode = Rotate(item, tempNode);  
+                currentNode.color = Black;  
+            }  
+            root.right.color = Color.Black;  
+        }  
+        private Node Rotate(IComparable item, Node parentNode) {  
+            int value;  
+            if (Compare(item, parentNode) < 0) {  
+                value = Compare(item, parentNode.left);  
+                if (value < 0) parentNode.left = this.Rotate(parentNode.left, Direction.Left);  
+                else parentNode.left = this.Rotate(parentNode.left, Direction.Right);  
+                return parentNode.left;  
+            } else {  
+                value = Compare(item, parentNode.right);  
+                if (value < 0) parentNode.right = this.Rotate(parentNode.right, Direction.Left);  
+                else parentNode.right = this.Rotate(parentNode.right, Direction.Right);  
+                return parentNode.right;  
+            }  
+        }  
+        private Node Rotate(Node node, Direction direction) {  
+            Node tempNode;  
+            if (direction == Direction.Left) {  
+                tempNode = node.left;  
+                node.left = tempNode.right;  
+                tempNode.right = node;  
+                return tempNode;  
+            } else {  
+                tempNode = node.right;  
+                node.right = tempNode.left;  
+                tempNode.left = node;  
+                return tempNode;  
+            }  
+        }   
+    </pre>
+<script>
+    var codeContent = $.trim($('#codeBlock').text());
+    $('#codeBlock').html('');
+
+    var editorCodeBlock = monaco.editor.create(document.getElementById("codeBlock"), {
+        value: codeContent,
+        language: "csharp",
+        theme: "vs",
+        lineNumbers: 'on',
+        glyphMargin: false,
+        vertical: 'auto',
+        horizontal: 'auto',
+        verticalScrollbarSize: 10,
+        horizontalScrollbarSize: 10,
+        scrollBeyondLastLine: false,
+        readOnly: false,
+        automaticLayout: true,
+        minimap: {
+            enabled: true
+        },
+        lineHeight:19,
+    });
+    $('#codeBlock').height(590);
+</script>
+</body>
+</html>
