@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Monaco</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.min.css"/>
+<script type="text/javascript">
 
+</script>
 </head>
 <body>
-    <script> var require = {path: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs' }};</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.min.js" ></script>    
+    <script> var require = {paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs' }};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.nls.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.min.js"></script>
-<h1>My blog</h1>
-<p>Some intro...... and look on my code.</p>
-    <pre id = "codeBlock" data-lang='cpp'>
+<h1>Text Editor</h1>
+<label for="languages">Choose a language:</label>
+<select id="languages" >
+  <option value="cpp">Cpp</option>
+  <option value="csharp">Csharp</option>
+  <option value="python">Python</option>
+  <option value="ruby">Ruby</option>
+</select>
+<select id="themes" >
+    <option value="vs">Light</option>
+    <option value="vs-dark">Dark</option>
+    <option value="hc-black">High Contrast</option>
+  </select>
+<input type='submit' onclick='getLang();'>
+    <pre id = "codeBlock" data-lang='csharp'>
         private void ReArrange(IComparable item) {  
             currentNode.color = Red;  
             currentNode.left.color = Color.Black;  
@@ -57,15 +72,43 @@
         }   
     </pre>
 <script>
+    var getValue = "csharp";
+    function getLang(){
+        language = document.getElementById('languages').selectedOptions[0].value;
+        theme = document.getElementById('themes').selectedOptions[0].value;
+        var codeContent = $.trim($('#codeBlock').text());
+        $('#codeBlock').html('');
+    
+        var editorCodeBlock = monaco.editor.create(document.getElementById("codeBlock"), {
+            value: '',
+            language: language,
+            theme: theme,
+            lineNumbers: 'on',
+            glyphMargin: true,
+            vertical: 'auto',
+            horizontal: 'auto',
+            verticalScrollbarSize: 10,
+            horizontalScrollbarSize: 10,
+            scrollBeyondLastLine: false,
+            readOnly: false,
+            automaticLayout: true,
+            minimap: {
+                enabled: true
+            },
+            lineHeight: 19,
+        });
+        $('#codeBlock').height(580);
+        $('#codeBlock').width(580);
+    }
     var codeContent = $.trim($('#codeBlock').text());
     $('#codeBlock').html('');
 
     var editorCodeBlock = monaco.editor.create(document.getElementById("codeBlock"), {
         value: codeContent,
-        language: "csharp",
+        language: getValue,
         theme: "vs",
         lineNumbers: 'on',
-        glyphMargin: false,
+        glyphMargin: true,
         vertical: 'auto',
         horizontal: 'auto',
         verticalScrollbarSize: 10,
@@ -76,9 +119,10 @@
         minimap: {
             enabled: true
         },
-        lineHeight:19,
+        lineHeight: 19,
     });
-    $('#codeBlock').height(590);
+    $('#codeBlock').height(570);
+    $('#codeBlock').width(800);
 </script>
 </body>
 </html>
